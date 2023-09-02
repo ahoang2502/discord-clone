@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
@@ -20,7 +21,7 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang="en" suppressHydrationWarning>
-				<body className={font.className}>
+				<body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
 					<ThemeProvider
 						attribute="class"
 						defaultTheme="dark"
