@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ModalProvider } from "@/components/providers/ModalProvider";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
 						enableSystem={false}
 						storageKey="discord-theme"
 					>
+						<ModalProvider />
 						{children}
 					</ThemeProvider>
 				</body>
