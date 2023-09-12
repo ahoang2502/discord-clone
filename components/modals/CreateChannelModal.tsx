@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import qs from "query-string";
+import { useEffect } from "react";
 
 const formSchema = z.object({
 	name: z
@@ -47,9 +48,11 @@ const formSchema = z.object({
 });
 
 const CreateChannelModal = () => {
-	const { isOpen, onClose, type } = useModal();
+	const { isOpen, onClose, type, data } = useModal();
+	const { channelType } = data;
+
 	const router = useRouter();
-	const params = useParams()
+	const params = useParams();
 
 	const isModalOpen = isOpen && type === "createChannel";
 
@@ -57,9 +60,17 @@ const CreateChannelModal = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: "",
-			type: ChannelType.TEXT,
+			type: channelType || ChannelType.TEXT,
 		},
 	});
+
+	useEffect(() => {
+		if (channelType) {
+			form.setValue("type", channelType);
+		} else {
+			form.setValue("type", ChannelType.TEXT);
+		}
+	}, [channelType, form]);
 
 	const isLoading = form.formState.isSubmitting;
 
@@ -68,7 +79,8 @@ const CreateChannelModal = () => {
 			const url = qs.stringifyUrl({
 				url: "/api/channels",
 				query: {
-				serverId: params?.serverId}
+					serverId: params?.serverId,
+				},
 			});
 			await axios.post(url, values);
 
