@@ -37,7 +37,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
 			<DropdownMenuTrigger className="focus:outline-none" asChild>
 				<button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition">
 					{server.name}
-					<ChevronDown className="h-5 w-5 ml-auto" />
+					<ChevronDown className="h-5 w-5 ml-auto hidden md:flex" />
 				</button>
 			</DropdownMenuTrigger>
 
@@ -81,13 +81,19 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
 				{isModerator && <DropdownMenuSeparator />}
 
 				{isAdmin && (
-					<DropdownMenuItem className="text-rose-500 px-3 py-2 text-sm cursor-pointer" onClick={()=>onOpen('deleteServer', {server})}>
+					<DropdownMenuItem
+						className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+						onClick={() => onOpen("deleteServer", { server })}
+					>
 						Delete Server <Trash className="h-4 w-4 ml-auto" />
 					</DropdownMenuItem>
 				)}
 				{/* A moderator or a guest (not an admin) */}
 				{!isAdmin && (
-					<DropdownMenuItem className="text-rose-500 px-3 py-2 text-sm cursor-pointer" onClick={()=>onOpen('leaveServer', {server})}>
+					<DropdownMenuItem
+						className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+						onClick={() => onOpen("leaveServer", { server })}
+					>
 						Leave Server <LogOut className="h-4 w-4 ml-auto" />
 					</DropdownMenuItem>
 				)}
