@@ -9,6 +9,7 @@ import ChatWelcome from "./ChatWelcome";
 import { useChatQuery } from "@/hooks/useChatQuery";
 import { MessageWithMemberWithProfile } from "@/types";
 import ChatItem from "./ChatItem";
+import { useChatSocket } from "@/hooks/useChatSocket";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -36,6 +37,8 @@ const ChatMessages = ({
 	type,
 }: ChatMessagesProps) => {
 	const queryKey = `chat:${chatId}`;
+	const addKey = `chat:${chatId}:messages`;
+	const updateKey = `chat:${chatId}:messages:update`;
 
 	const { data, fetchNextPage, isFetchingNextPage, status, hasNextPage } =
 		useChatQuery({
@@ -44,6 +47,8 @@ const ChatMessages = ({
 			paramKey,
 			paramValue,
 		});
+
+	useChatSocket({ queryKey, addKey, updateKey });
 
 	if (status === "loading")
 		return (
@@ -76,7 +81,7 @@ const ChatMessages = ({
 						{group.items.map((message: MessageWithMemberWithProfile) => (
 							<ChatItem
 								key={message.id}
-								id={member.id}
+								id={message.id}
 								content={message.content}
 								member={message.member}
 								currentMember={member}
